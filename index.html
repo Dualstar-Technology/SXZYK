@@ -1,0 +1,587 @@
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>双重星科技 Dualstar Technology — 官方官网</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 48 48&quot;><path d=&quot;M24 2 29.5 18.5 46 24 29.5 29.5 24 46 18.5 29.5 2 24 18.5 18.5Z&quot; fill=&quot;%234E8CFF&quot;/></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;display=swap">
+<style>
+/* ===== 基础与设计变量 ===== */
+:root{
+  --bg:#070B14;
+  --bg2:#0A1120;
+  --panel:#0D1626;
+  --panel2:#111C31;
+  --line:rgba(148,163,200,.13);
+  --line2:rgba(148,163,200,.26);
+  --txt:#E9EFFB;
+  --mut:#9AA9C4;
+  --dim:#6B7A97;
+  --blue:#4E8CFF;
+  --blue2:#2E63E8;
+  --cyan:#34D8F5;
+  --violet:#8B5CF6;
+  --gold:#F5C97B;
+  --ok:#3DD68C;
+  --warn:#FFB454;
+  --bad:#FF6B81;
+  --grad:linear-gradient(135deg,#3E7BFA 0%,#7C5CF6 55%,#34D8F5 130%);
+  --radius:18px;
+  --shadow:0 20px 50px rgba(3,8,20,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;
+  background:var(--bg);color:var(--txt);line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:rgba(78,140,255,.35)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(1180px,92%);margin:0 auto}
+h1,h2,h3{line-height:1.25;font-weight:900;letter-spacing:.01em}
+.sec-pad{padding:96px 0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:14px;
+}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--grad);border-radius:2px}
+.sec-title{font-size:clamp(26px,3.4vw,38px);margin-bottom:14px}
+.sec-sub{color:var(--mut);font-size:15px;max-width:60ch}
+.sec-head{margin-bottom:44px}
+
+/* ===== 星星背景 ===== */
+.stars{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7),transparent 60%),
+   radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.5),transparent 60%),
+   radial-gradient(1.5px 1.5px at 40% 70%,rgba(180,210,255,.65),transparent 60%),
+   radial-gradient(1px 1px at 85% 55%,rgba(255,255,255,.45),transparent 60%),
+   radial-gradient(1px 1px at 55% 85%,rgba(180,210,255,.55),transparent 60%),
+   radial-gradient(1.2px 1.2px at 10% 60%,rgba(255,255,255,.4),transparent 60%),
+   radial-gradient(1px 1px at 90% 85%,rgba(255,255,255,.5),transparent 60%),
+   radial-gradient(1px 1px at 60% 45%,rgba(255,255,255,.4),transparent 60%),
+   radial-gradient(1.4px 1.4px at 30% 12%,rgba(180,210,255,.5),transparent 60%),
+   radial-gradient(1px 1px at 78% 75%,rgba(255,255,255,.35),transparent 60%);
+  animation:twinkle 6s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+
+/* ===== 顶部导航 ===== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(16px);background:rgba(7,11,20,.72);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:17px}
+.brand small{display:block;font-size:10px;font-weight:500;color:var(--dim);letter-spacing:.14em}
+.nav-links{display:flex;gap:6px;margin-left:auto}
+.nav-links a{
+  padding:8px 14px;border-radius:10px;font-size:14px;color:var(--mut);
+  transition:.2s;
+}
+.nav-links a:hover{color:var(--txt);background:rgba(148,163,200,.08)}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.nav-cta a{padding:9px 16px;border-radius:11px;font-size:14px;font-weight:700;transition:.2s}
+.btn-ghost{border:1px solid var(--line2);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.btn-solid{background:var(--grad);color:#fff;box-shadow:0 8px 24px rgba(62,123,250,.35)}
+.btn-solid:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line2);border-radius:10px;color:var(--txt);width:40px;height:40px;font-size:18px;cursor:pointer}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;min-height:92vh;display:flex;align-items:center;
+  padding:140px 0 80px;z-index:1;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:-1}
+.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+   linear-gradient(180deg,rgba(7,11,20,.62) 0%,rgba(7,11,20,.35) 45%,var(--bg) 100%),
+   radial-gradient(1200px 600px at 70% 20%,rgba(62,123,250,.18),transparent 60%);
+}
+.hero-in{max-width:760px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(78,140,255,.4);background:rgba(78,140,255,.1);
+  color:var(--cyan);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;
+  margin-bottom:26px;
+}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{
+  font-size:clamp(40px,6.6vw,72px);line-height:1.08;
+  background:linear-gradient(180deg,#fff 20%,#A9C6FF 90%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .slogan{
+  margin-top:22px;font-size:clamp(17px,2.2vw,22px);font-weight:700;color:#DDE7FA;
+  letter-spacing:.05em;
+}
+.hero .sub{margin-top:16px;color:var(--mut);font-size:15.5px;max-width:56ch}
+.hero-cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+.hero-cta a{
+  padding:14px 28px;border-radius:14px;font-weight:700;font-size:15px;transition:.2s;
+}
+.hero-stats{
+  display:flex;gap:0;margin-top:58px;border:1px solid var(--line);
+  background:rgba(13,22,38,.55);border-radius:var(--radius);backdrop-filter:blur(8px);
+  overflow:hidden;flex-wrap:wrap;
+}
+.hstat{flex:1;min-width:150px;padding:20px 24px;border-right:1px solid var(--line)}
+.hstat:last-child{border-right:none}
+.hstat b{display:block;font-size:20px;color:#fff;font-weight:900}
+.hstat span{font-size:12.5px;color:var(--dim)}
+
+/* ===== 通用区块 ===== */
+.section{position:relative;z-index:1}
+.panel{
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:var(--radius);
+}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  transition:.25s;
+}
+.card:hover{transform:translateY(-4px);border-color:rgba(78,140,255,.4);box-shadow:var(--shadow)}
+
+/* ===== 应用市场（空状态） ===== */
+.store-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  margin-bottom:28px;
+}
+.empty-store{
+  position:relative;overflow:hidden;text-align:center;padding:76px 32px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px dashed rgba(148,163,200,.32);border-radius:22px;
+}
+.empty-store::before{
+  content:"";position:absolute;right:-160px;top:-160px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(78,140,255,.14),transparent 65%);
+}
+.empty-store::after{
+  content:"";position:absolute;left:-160px;bottom:-160px;width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.12),transparent 65%);
+}
+.es-icon{
+  width:72px;height:72px;margin:0 auto 22px;border-radius:20px;
+  background:rgba(78,140,255,.12);border:1px solid rgba(78,140,255,.32);
+  display:flex;align-items:center;justify-content:center;
+}
+.es-icon svg{width:34px;height:34px;stroke:var(--blue);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.empty-store h3{font-size:21px;margin-bottom:10px}
+.empty-store p{color:var(--mut);font-size:14.5px;max-width:46ch;margin:0 auto}
+.empty-store .es-note{
+  display:inline-block;margin-top:22px;padding:9px 20px;border-radius:999px;
+  background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);
+  color:#C9B8F7;font-size:13px;font-weight:700;
+}
+
+/* ===== 特色功能 ===== */
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.feat{padding:26px 24px}
+.feat .ficon{
+  width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:rgba(78,140,255,.12);border:1px solid rgba(78,140,255,.3);margin-bottom:16px;
+}
+.feat .ficon svg{width:26px;height:26px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{font-size:16px;margin-bottom:8px}
+.feat p{font-size:13.5px;color:var(--mut)}
+
+/* ===== 关于我们 ===== */
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.about-media{position:relative}
+.about-media img{border-radius:22px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.about-media::after{
+  content:"";position:absolute;inset:-18px 18px 18px -18px;border:1px solid rgba(78,140,255,.25);
+  border-radius:26px;z-index:-1;
+}
+.about-txt p{color:var(--mut);font-size:14.5px;margin-bottom:14px}
+.about-txt p b{color:var(--txt)}
+.motto{
+  margin-top:22px;padding:18px 22px;border-left:3px solid var(--blue);background:rgba(78,140,255,.07);
+  border-radius:0 14px 14px 0;font-weight:700;font-size:15px;color:#DCE7FB;
+}
+.vision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.vision{padding:26px 24px}
+.vision .vno{font-size:13px;font-weight:900;color:var(--cyan);letter-spacing:.12em;margin-bottom:10px}
+.vision h3{font-size:16px;margin-bottom:8px}
+.vision p{font-size:13.5px;color:var(--mut)}
+
+/* ===== 时间轴 ===== */
+.timeline{display:grid;grid-template-columns:180px 44px 1fr;row-gap:0;margin-top:52px}
+.tl-item{display:contents}
+.tl-time{padding:22px 0;text-align:right;color:var(--mut);font-size:13.5px;font-weight:700}
+.tl-rail{position:relative;display:flex;justify-content:center}
+.tl-dot{
+  width:14px;height:14px;border-radius:50%;background:var(--bg);justify-self:center;align-self:center;
+  border:3px solid var(--blue);box-shadow:0 0 0 5px rgba(78,140,255,.15),0 0 16px rgba(78,140,255,.5);z-index:1;
+}
+.tl-dot.hot{border-color:var(--gold);box-shadow:0 0 0 5px rgba(245,201,123,.15),0 0 16px rgba(245,201,123,.5)}
+.tl-line{
+  position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(78,140,255,.05),rgba(78,140,255,.55),rgba(245,201,123,.6));
+}
+.tl-card{margin:16px 0 16px 26px;padding:18px 22px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.tl-card h4{font-size:15px;margin-bottom:4px}
+.tl-card p{font-size:13px;color:var(--mut)}
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px}
+.plan{padding:22px;text-align:center}
+.plan .pno{width:40px;height:40px;margin:0 auto 12px;border-radius:12px;background:rgba(78,140,255,.12);border:1px solid rgba(78,140,255,.3);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--cyan);font-size:15px}
+.plan h4{font-size:14.5px;margin-bottom:6px}
+.plan p{font-size:12.5px;color:var(--mut)}
+
+/* ===== 加入我们 ===== */
+.join-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.jcard{padding:26px 22px}
+.jcard .jno{
+  font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--cyan);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.jcard h3{font-size:16px;margin-bottom:8px}
+.jcard p{font-size:13.5px;color:var(--mut)}
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:52px}
+.contact{padding:24px;text-align:center}
+.contact .cicon{
+  width:48px;height:48px;margin:0 auto 12px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  background:rgba(78,140,255,.1);border:1px solid rgba(78,140,255,.28);
+}
+.contact .cicon svg{width:24px;height:24px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.contact h4{font-size:14.5px;margin-bottom:4px}
+.contact .cval{font-size:12.5px;color:var(--mut);word-break:break-all}
+.contact a.cval{color:var(--cyan);font-weight:700}
+.contact a.cval:hover{text-decoration:underline}
+
+/* ===== Footer ===== */
+.footer{border-top:1px solid var(--line);padding:52px 0 40px;background:var(--bg2);z-index:1;position:relative}
+.foot-in{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.foot-brand p{color:var(--dim);font-size:13px;max-width:34ch;margin-top:12px}
+.foot-links{display:flex;gap:64px;flex-wrap:wrap}
+.foot-links h5{font-size:13px;color:var(--txt);margin-bottom:14px}
+.foot-links a{display:block;font-size:13px;color:var(--dim);padding:4px 0;transition:.2s}
+.foot-links a:hover{color:var(--cyan)}
+.foot-bottom{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;left:50%;bottom:36px;transform:translate(-50%,20px);z-index:200;
+  background:rgba(17,28,49,.95);border:1px solid rgba(78,140,255,.45);color:var(--txt);
+  padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;
+  box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast b{color:var(--cyan)}
+
+/* ===== 滚动显现 ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== 响应式 ===== */
+@media(max-width:1024px){
+  .feats,.join-grid,.plan-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  .burger{display:block}
+  .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:rgba(7,11,20,.97);padding:14px;border-bottom:1px solid var(--line)}
+  .nav-links.open a{padding:12px 14px}
+  .about-grid{grid-template-columns:1fr}
+  .timeline{grid-template-columns:96px 34px 1fr}
+  .hero-stats .hstat{border-right:none;border-bottom:1px solid var(--line);min-width:50%}
+}
+@media(max-width:560px){
+  .feats,.join-grid,.plan-grid,.contact-grid{grid-template-columns:1fr}
+  .sec-pad{padding:70px 0}
+  .hero{padding-top:110px}
+}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ===== 导航 ===== -->
+<header class="nav">
+  <div class="wrap nav-in">
+	<a class="brand" href="#top">
+	  <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2 29.5 18.5 46 24 29.5 29.5 24 46 18.5 29.5 2 24 18.5 18.5Z" fill="url(#lg1)"></path><defs><linearGradient id="lg1" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#4E8CFF"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs></svg>
+	  <span>双重星科技<small>DUALSTAR TECHNOLOGY</small></span>
+	</a>
+	<nav class="nav-links" id="navLinks">
+	  <a href="#top">首页</a>
+	  <a href="#store">应用市场</a>
+	  <a href="#about">关于我们</a>
+	  <a href="#join">加入我们</a>
+	</nav>
+	<div class="nav-cta">
+	  <a class="btn-ghost" href="https://dev.scxkj.edgeone.dev" target="_blank" rel="noopener">开发者后台</a>
+	  <a class="btn-solid" href="https://work.weixin.qq.com/ca/cawcde31d47703421b" target="_blank" rel="noopener">客服咨询</a>
+	</div>
+	<button class="burger" id="burger" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="assets/hero.jpg" alt="双重星科技 深空视觉"></div>
+  <div class="wrap hero-in">
+	<div class="hero-badge"><span class="dot"></span> 双重星科技 · 虚拟开发创新项目</div>
+	<h1>双重星科技<em>出场</em><br>焕新虚拟疆</h1>
+	<p class="slogan">双星联动 · 协同创新 · 共创虚拟新世界</p>
+	<p class="sub">双重星科技成立于 2025 年 6 月 28 日，专注于虚拟产品创作领域，以创新技术为虚拟世界的朋友们带来更多优质内容与全新体验。</p>
+	<div class="hero-cta">
+	  <a class="btn-solid" href="#store" style="background:var(--grad)">进入双星应用市场</a>
+	  <a class="btn-ghost" href="https://dev.scxkj.edgeone.dev" target="_blank" rel="noopener" style="border:1px solid var(--line2);color:var(--txt)">成为双星开发者</a>
+	</div>
+	<div class="hero-stats">
+	  <div class="hstat"><b>2025.06.28</b><span>项目正式成立</span></div>
+	  <div class="hstat"><b>虚拟开发</b><span>所属创作领域</span></div>
+	  <div class="hstat"><b>SX0180302301000</b><span>项目唯一标识</span></div>
+	</div>
+  </div>
+</section>
+
+<!-- ===== 应用市场 ===== -->
+<section class="section sec-pad" id="store">
+  <div class="wrap">
+	<div class="store-head">
+	  <div class="sec-head" style="margin-bottom:0">
+		<div class="eyebrow">App Market</div>
+		<h2 class="sec-title">双星应用市场</h2>
+		<p class="sec-sub">精选优质虚拟创作应用，安全下载、极速体验，每一款都经过严格审核。</p>
+	  </div>
+	</div>
+
+	<div class="empty-store reveal in">
+	  <div class="es-icon">
+		<svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h7"></path><path d="M19 15l2 2-2 2M19 8l2 2-2 2"></path></svg>
+	  </div>
+	  <h3>双星应用市场即将上线</h3>
+	  <p>双星应用将在数月后上架，
+现可在以下网址下载</p>
+	  <div class="es-note">https://github.com/
+	  SXAi622/-/releases</div>
+	</div>
+  </div>
+</section>
+
+<!-- ===== 特色功能 ===== -->
+<section class="section sec-pad" id="features">
+  <div class="wrap">
+	<div class="sec-head reveal in">
+	  <div class="eyebrow">Why Dualstar</div>
+	  <h2 class="sec-title">为什么选择双星应用市场</h2>
+	  <p class="sec-sub">从安全到速度，从更新到生态，为每一次下载负责。</p>
+	</div>
+	<div class="feats">
+	  <div class="card feat reveal in">
+		<div class="ficon"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-3 8.4-7 10-4-1.6-7-5.6-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+		<h3>安全护航</h3>
+		<p>每款应用都经过安全检测与人工审核，杜绝恶意代码与违规内容，下载更安心。</p>
+	  </div>
+	  <div class="card feat reveal in">
+		<div class="ficon"><svg viewBox="0 0 24 24"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12l1-9z"></path></svg></div>
+		<h3>极速下载</h3>
+		<p>智能分发加速引擎，多节点就近调度，热门应用秒级下载完成。</p>
+	  </div>
+	  <div class="card feat reveal in">
+		<div class="ficon"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"></path></svg></div>
+		<h3>智能更新</h3>
+		<p>静默感知应用新版本，自动提醒与后台更新，始终使用最新功能。</p>
+	  </div>
+	  <div class="card feat reveal in">
+		<div class="ficon"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h7"></path><path d="M19 15l2 2-2 2M19 8l2 2-2 2"></path></svg></div>
+		<h3>开放生态</h3>
+		<p>面向全体创作者开放上架通道，虚拟世界的每一份创意都值得被看见。</p>
+	  </div>
+	</div>
+  </div>
+</section>
+
+<!-- ===== 关于我们 ===== -->
+<section class="section sec-pad" id="about" style="background:linear-gradient(180deg,transparent,rgba(13,22,38,.5),transparent)">
+  <div class="wrap">
+	<div class="about-grid">
+	  <div class="about-media reveal in">
+		<img src="assets/about.jpg" alt="双星联动 星空视觉">
+	  </div>
+	  <div class="about-txt reveal in">
+		<div class="eyebrow">About Us</div>
+		<h2 class="sec-title" style="font-size:clamp(24px,3vw,34px)">关于双重星科技</h2>
+		<p>双重星科技是一个专注于<b>虚拟开发</b>的创新型科技创作项目，成立于 <b>2025 年 6 月 28 日</b>。作为互联网的新兴力量，项目以「双重星科技出场，焕新虚拟疆」为口号，展现了在虚拟产品创作领域追求卓越、勇攀高峰的坚定信念。</p>
+		<p>项目以「双重星科技」为名，寓意<b>双星联动、协同创新</b>的发展模式——通过团队成员的紧密合作与技术创新，共同推动项目在虚拟世界的发展。</p>
+		<div class="motto">秉承「焕新虚拟疆」的远大目标，让每一份虚拟世界的创意都被认真对待。</div>
+	  </div>
+	</div>
+
+	<div class="vision-grid">
+	  <div class="card vision reveal in">
+		<div class="vno">01 / GOAL</div>
+		<h3>顶尖技术</h3>
+		<p>在虚拟开发领域达到顶尖水平，持续钻研前沿技术。</p>
+	  </div>
+	  <div class="card vision reveal in">
+		<div class="vno">02 / WORKS</div>
+		<h3>影响力作品</h3>
+		<p>创造具有影响力的科技类作品，让作品替我们说话。</p>
+	  </div>
+	  <div class="card vision reveal in">
+		<div class="vno">03 / BRAND</div>
+		<h3>专业品牌</h3>
+		<p>建立专业的创作团队和品牌影响力，成为可信赖的虚拟开发品牌。</p>
+	  </div>
+	</div>
+
+	<h2 class="sec-title" style="margin-top:88px" id="history">发展历程与未来规划</h2>
+	<div class="timeline">
+	  <div class="tl-item">
+		<div class="tl-time">2025.06.28</div>
+		<div class="tl-rail"><span class="tl-line"></span><span class="tl-dot hot"></span></div>
+		<div class="tl-card"><h4>项目正式成立</h4><p>一个专注于科技创作的新团队诞生于虚拟世界，双星品牌正式启航。</p></div>
+	  </div>
+	  <div class="tl-item">
+		<div class="tl-time">2025 · 至今</div>
+		<div class="tl-rail"><span class="tl-line"></span><span class="tl-dot"></span></div>
+		<div class="tl-card"><h4>双星应用市场上线</h4><p>搭建开放的应用分发生态，持续收录并上架优质虚拟创作应用。</p></div>
+	  </div>
+	  <div class="tl-item">
+		<div class="tl-time">未来 · 进行中</div>
+		<div class="tl-rail"><span class="tl-line"></span><span class="tl-dot"></span></div>
+		<div class="tl-card"><h4>迈向「焕新虚拟疆」</h4><p>以持续创新为引擎，稳步走向虚拟世界更广阔的疆域。</p></div>
+	  </div>
+	</div>
+
+	<div class="plan-grid">
+	  <div class="card plan reveal in"><div class="pno">1</div><h4>技术研发</h4><p>持续的技术研发和创新</p></div>
+	  <div class="card plan reveal in"><div class="pno">2</div><h4>作品发布</h4><p>优秀作品的创作与发布</p></div>
+	  <div class="card plan reveal in"><div class="pno">3</div><h4>团队建设</h4><p>团队建设与人才培养</p></div>
+	  <div class="card plan reveal in"><div class="pno">4</div><h4>社区互动</h4><p>社区互动与粉丝维护</p></div>
+	</div>
+  </div>
+</section>
+
+<!-- ===== 加入我们 ===== -->
+<section class="section sec-pad" id="join">
+  <div class="wrap">
+	<div class="sec-head reveal in" style="text-align:center">
+	  <div class="eyebrow" style="justify-content:center">Join Us</div>
+	  <h2 class="sec-title">加入我们 · 项目合伙制</h2>
+	  <p class="sec-sub" style="margin:0 auto">为了保障项目的公平性与可持续发展，双重星科技实行「项目合伙制」协作模式，让每一份付出都能及时获得回报。</p>
+	</div>
+	<div class="join-grid">
+	  <div class="card jcard reveal in">
+		<div class="jno">PRINCIPLE 01</div>
+		<h3>即时结算</h3>
+		<p>项目不设固定薪资周期，所有收益遵循「任务完结即结算」的原则，确保每一份付出及时获得回报。</p>
+	  </div>
+	  <div class="card jcard reveal in">
+		<div class="jno">PRINCIPLE 02</div>
+		<h3>多劳多得</h3>
+		<p>收益与实际贡献直接挂钩，投入越多、产出越好，回报越丰厚。</p>
+	  </div>
+	  <div class="card jcard reveal in">
+		<div class="jno">PRINCIPLE 03</div>
+		<h3>贡献导向</h3>
+		<p>坚持「按贡献分配」的核心准则，收益仅向实际参与任务并产生实质性贡献的成员开放，杜绝「大锅饭」。</p>
+	  </div>
+	  <div class="card jcard reveal in">
+		<div class="jno">PRINCIPLE 04</div>
+		<h3>透明共创</h3>
+		<p>每个任务的收益分配方案公开透明地展示，在公平、公正的氛围中共同创造价值、共享成长红利。</p>
+	  </div>
+	</div>
+
+	<div class="contact-grid">
+	  <div class="card contact reveal in">
+		<div class="cicon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg></div>
+		<h4>官方邮箱</h4>
+		<a class="cval" href="mailto:3948604400@qq.com">3948604400@qq.com</a>
+	  </div>
+	  <div class="card contact reveal in">
+		<div class="cicon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9 10.5c0-1.7 1.3-3 3-3s3 1.3 3 3c0 1.5-1.2 2.4-3 4-1.8-1.6-3-2.5-3-4z"></path></svg></div>
+		<h4>官方QQ</h4>
+		<span class="cval">3948604400</span>
+	  </div>
+	  <div class="card contact reveal in">
+		<div class="cicon"><svg viewBox="0 0 24 24"><path d="M12 3c-4.5 0-8 3-8 6.8 0 2 1 3.8 2.6 5L5 20l3.6-2c1 .3 2.2.5 3.4.5 4.5 0 8-3 8-6.8S16.5 3 12 3z"></path></svg></div>
+		<h4>官方快手</h4>
+		<span class="cval">SX0180302301000</span>
+	  </div>
+	  <div class="card contact reveal in">
+		<div class="cicon"><svg viewBox="0 0 24 24"><path d="M3 8l9 5 9-5M4 6h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"></path></svg></div>
+		<h4>客服咨询</h4>
+		<a class="cval" href="https://work.weixin.qq.com/ca/cawcde31d47703421b" target="_blank" rel="noopener">微信客服</a>
+	  </div>
+	</div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="wrap">
+	<div class="foot-in">
+	  <div class="foot-brand">
+		<a class="brand" href="#top">
+		  <svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2 29.5 18.5 46 24 29.5 29.5 24 46 18.5 29.5 2 24 18.5 18.5Z" fill="url(#lg2)"></path><defs><linearGradient id="lg2" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#4E8CFF"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs></svg>
+		  <span>双重星科技<small>DUALSTAR TECHNOLOGY</small></span>
+		</a>
+		<p>双重星出场，焕新虚拟疆。专注于虚拟开发的创新型科技创作项目。</p>
+	  </div>
+	  <div class="foot-links">
+		<div>
+		  <h5>网站导航</h5>
+		  <a href="#top">首页</a>
+		  <a href="#store">应用市场</a>
+		  <a href="#about">关于我们</a>
+		  <a href="#join">加入我们</a>
+		</div>
+		<div>
+		  <h5>开发者</h5>
+		  <a href="https://dev.scxkj.edgeone.dev" target="_blank" rel="noopener">开发者后台</a>
+		  <a href="https://dev.scxkj.edgeone.dev#revenue" target="_blank" rel="noopener">收益结算规则</a>
+		  <a href="https://work.weixin.qq.com/ca/cawcde31d47703421b" target="_blank" rel="noopener">客服支持</a>
+		</div>
+		<div>
+		  <h5>联系方式</h5>
+		  <a href="mailto:3948604400@qq.com">3948604400@qq.com</a>
+		  <a href="https://work.weixin.qq.com/ca/cawcde31d47703421b" target="_blank" rel="noopener">微信客服</a>
+		  <span style="display:block;font-size:13px;color:var(--dim);padding:4px 0">官方迷你号 1882154384</span>
+		</div>
+	  </div>
+	</div>
+	<div class="foot-bottom">
+	  <span>© 2025-2026 双重星科技 Dualstar Technology · 项目编号 SX0180302301000</span>
+	  <span>虚拟开发 · 双星联动 · 协同创新</span>
+	</div>
+  </div>
+</footer>
+
+<script>
+/* ===== Toast ===== */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg, cls){
+  toast.innerHTML = msg; toast.className = 'toast show';
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>toast.className='toast', 2600);
+}
+
+/* ===== 滚动显现 ===== */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ===== 移动端菜单 ===== */
+document.getElementById('burger').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+
+</body></html>
