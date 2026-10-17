@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星能元语言手册 — 双星应用园</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 48 48&quot;><path d=&quot;M24 2 29.5 18.5 46 24 29.5 29.5 24 46 18.5 29.5 2 24 18.5 18.5Z&quot; fill=&quot;%234E8CFF&quot;/></svg>">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;display=swap">
+<style>
+:root{
+  --bg:#070B14;--bg2:#0A1120;--panel:#0D1626;--panel2:#111C31;
+  --line:rgba(148,163,200,.13);--line2:rgba(148,163,200,.26);
+  --txt:#E9EFFB;--mut:#9AA9C4;--dim:#6B7A97;
+  --blue:#4E8CFF;--cyan:#34D8F5;--violet:#8B5CF6;--ok:#3DD68C;--warn:#FFB454;
+  --grad:linear-gradient(135deg,#3E7BFA 0%,#7C5CF6 55%,#34D8F5 130%);
+  --radius:18px;--shadow:0 20px 50px rgba(3,8,20,.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:rgba(78,140,255,.35)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(980px,92%);margin:0 auto}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.7),transparent 60%),
+   radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.5),transparent 60%),
+   radial-gradient(1.5px 1.5px at 40% 70%,rgba(180,210,255,.65),transparent 60%),
+   radial-gradient(1px 1px at 85% 55%,rgba(255,255,255,.45),transparent 60%),
+   radial-gradient(1px 1px at 55% 85%,rgba(180,210,255,.55),transparent 60%),
+   radial-gradient(1.2px 1.2px at 10% 60%,rgba(255,255,255,.4),transparent 60%),
+   radial-gradient(1px 1px at 90% 85%,rgba(255,255,255,.5),transparent 60%),
+   radial-gradient(1px 1px at 60% 45%,rgba(255,255,255,.4),transparent 60%);
+  animation:twinkle 6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+
+/* ===== 顶栏 ===== */
+.topbar{position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);background:rgba(7,11,20,.82);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:16px;padding:12px 0}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:11px;border:1px solid var(--line2);color:var(--txt);font-size:14px;font-weight:700;transition:.2s;background:rgba(13,22,38,.6)}
+.back-btn:hover{border-color:var(--blue);color:var(--blue)}
+.back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topbar-title{font-size:15px;font-weight:900;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-dl{margin-left:auto;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:10px;border:1px solid rgba(78,140,255,.4);color:#BFD5FF;font-size:13px;font-weight:700;transition:.2s;white-space:nowrap}
+.topbar-dl:hover{background:rgba(78,140,255,.14)}
+.topbar-dl svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== 手册头部 ===== */
+.manual-head{padding:44px 0 10px;position:relative;z-index:1}
+.manual-head .kicker{font-size:12.5px;font-weight:700;letter-spacing:.18em;color:var(--cyan);margin-bottom:10px}
+.manual-head h1{font-size:clamp(24px,3.6vw,32px);font-weight:900;line-height:1.25}
+.manual-head .sub{margin-top:10px;color:var(--mut);font-size:14px}
+.manual-head .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.manual-head .meta span{font-size:12px;color:var(--dim);border:1px solid var(--line);padding:3px 11px;border-radius:999px}
+
+/* ===== 目录 ===== */
+.toc{margin:26px 0 10px;border:1px solid var(--line);background:rgba(13,22,38,.55);border-radius:var(--radius);padding:20px 24px;position:relative;z-index:1}
+.toc h2{font-size:15px;font-weight:900;margin-bottom:12px;color:#DCE7FB}
+.toc ol{margin-left:20px;columns:2;column-gap:36px}
+.toc li{font-size:13.5px;color:var(--mut);margin-bottom:6px;break-inside:avoid}
+.toc a{color:var(--mut);transition:.15s}
+.toc a:hover{color:var(--cyan)}
+@media(max-width:640px){.toc ol{columns:1}}
+
+/* ===== 正文 ===== */
+.manual-body{position:relative;z-index:1;margin-top:26px}
+.manual-body h2{font-size:21px;font-weight:900;margin:44px 0 16px;padding-top:10px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;scroll-margin-top:84px}
+.manual-body h2:first-child{border-top:none;margin-top:10px}
+.manual-body h2::before{content:"";width:6px;height:22px;border-radius:3px;background:var(--grad);flex:none}
+.manual-body h3{font-size:16.5px;font-weight:900;margin:28px 0 12px;color:#DCE7FB;display:flex;align-items:center;gap:8px;scroll-margin-top:84px}
+.manual-body h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);flex:none}
+.manual-body p{color:var(--mut);font-size:14.5px;margin-bottom:13px}
+.manual-body p b,.manual-body li b,.manual-body td b{color:var(--txt)}
+.manual-body ul,.manual-body ol{margin:0 0 14px 22px}
+.manual-body li{color:var(--mut);font-size:14px;margin-bottom:7px}
+.manual-body blockquote{margin:14px 0;padding:13px 18px;border-left:3px solid var(--blue);background:rgba(78,140,255,.07);border-radius:0 12px 12px 0;color:#C9D8F5;font-size:13.5px}
+.manual-body blockquote p{margin:0;color:#C9D8F5}
+.manual-body hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+.manual-body a{color:var(--cyan)}
+.manual-body code{font-family:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;font-size:.88em;background:rgba(78,140,255,.12);border:1px solid rgba(78,140,255,.22);border-radius:6px;padding:1.5px 6px;color:#BFD5FF}
+.manual-body pre{background:#05080F;border:1px solid var(--line2);border-radius:14px;padding:16px 18px;overflow-x:auto;margin:0 0 16px;scrollbar-width:thin}
+.manual-body pre::-webkit-scrollbar{height:8px}
+.manual-body pre::-webkit-scrollbar-thumb{background:rgba(78,140,255,.35);border-radius:4px}
+.manual-body pre code{background:none;border:none;padding:0;font-size:13px;line-height:1.75;color:#D8E4F8;display:block;white-space:pre}
+.manual-body .table-wrap{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:0 0 18px;background:rgba(13,22,38,.5);overflow-x:auto}
+.manual-body table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}
+.manual-body th{background:rgba(78,140,255,.1);color:#DCE7FB;font-weight:700;text-align:left;padding:9px 14px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.manual-body td{padding:8px 14px;border-bottom:1px solid var(--line);color:var(--mut);vertical-align:top}
+.manual-body tr:last-child td{border-bottom:none}
+.manual-body tbody tr:hover{background:rgba(78,140,255,.05)}
+
+/* ===== Footer ===== */
+.footer{border-top:1px solid var(--line);padding:44px 0 36px;background:var(--bg2);position:relative;z-index:1;margin-top:70px}
+.foot-in{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.foot-brand p{color:var(--dim);font-size:13px;max-width:34ch;margin-top:12px}
+.foot-links{display:flex;gap:64px;flex-wrap:wrap}
+.foot-links h5{font-size:13px;color:var(--txt);margin-bottom:14px}
+.foot-links a{display:block;font-size:13px;color:var(--dim);padding:4px 0;transition:.2s}
+.foot-links a:hover{color:var(--cyan)}
+.foot-bottom{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
+@media(max-width:640px){.foot-links{gap:32px}}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<!-- ===== 顶栏：返回按钮 ===== -->
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="back-btn" href="app-xingnengyuan.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>返回星能元
+    </a>
+    <div class="topbar-title">星能元语言手册</div>
+    <a class="topbar-dl" href="downloads/xingnengyuan/星能元语言手册.md" download>
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>下载手册
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===== 手册头部 ===== -->
+  <section class="manual-head">
+    <div class="kicker">XLY LANGUAGE MANUAL</div>
+    <h1>星能元（XLY）语言手册</h1>
+    <p class="sub">星能元是一门中文编程语言：语法、格式、缩进规则与 Python 3.x 完全一致，仅把关键字与常用函数名改成中文。<b>会 Python 就会星能元。</b></p>
+    <div class="meta">
+      <span>版本 v1.1.0</span>
+      <span>20 个章节</span>
+      <span>中英文关键字通用</span>
+      <span>双重星科技出品</span>
+    </div>
+  </section>
+
+  <!-- ===== 目录 ===== -->
+  <nav class="toc" id="toc">
+    <h2>目录</h2>
+    <ol>
+      <li><a href="#一快速入门">快速入门</a></li>
+      <li><a href="#二关键字对照">关键字对照</a></li>
+      <li><a href="#三数据类型">数据类型</a></li>
+      <li><a href="#四运算符">运算符</a></li>
+      <li><a href="#五内建函数">内建函数</a></li>
+      <li><a href="#六字符串方法">字符串方法</a></li>
+      <li><a href="#七列表方法">列表方法</a></li>
+      <li><a href="#八字典方法">字典方法</a></li>
+      <li><a href="#九集合方法">集合方法</a></li>
+      <li><a href="#十内置模块">内置模块</a></li>
+      <li><a href="#十一流程控制">流程控制</a></li>
+      <li><a href="#十二函数">函数</a></li>
+      <li><a href="#十三类与面向对象">类与面向对象</a></li>
+      <li><a href="#十四异常处理">异常处理</a></li>
+      <li><a href="#十五文件操作">文件操作</a></li>
+      <li><a href="#十六网络请求">网络请求</a></li>
+      <li><a href="#十七图形界面">图形界面</a></li>
+      <li><a href="#十八多线程">多线程</a></li>
+      <li><a href="#十九语法要点">语法要点</a></li>
+      <li><a href="#二十注意事项">注意事项</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== 手册正文（由 Markdown 转换生成） ===== -->
+  <article class="manual-body" id="manualBody">
+<h1 id="星能元XLY语言手册v110">星能元（XLY）语言手册 v1.1.0</h1>
+<blockquote>
+<p>星能元是一门中文编程语言：语法、格式、缩进规则与 Python 3.x 完全一致，仅把关键字与常用函数名改成中文。<strong>会 Python 就会星能元。</strong></p>
+</blockquote>
+<hr />
+<h2 id="目录">目录</h2>
+<ol>
+<li><a href="#一快速入门">快速入门</a></li>
+<li><a href="#二关键字对照">关键字对照</a></li>
+<li><a href="#三数据类型">数据类型</a></li>
+<li><a href="#四运算符">运算符</a></li>
+<li><a href="#五内建函数">内建函数</a></li>
+<li><a href="#六字符串方法">字符串方法</a></li>
+<li><a href="#七列表方法">列表方法</a></li>
+<li><a href="#八字典方法">字典方法</a></li>
+<li><a href="#九集合方法">集合方法</a></li>
+<li><a href="#十内置模块">内置模块</a></li>
+<li><a href="#十一流程控制">流程控制</a></li>
+<li><a href="#十二函数">函数</a></li>
+<li><a href="#十三类与面向对象">类与面向对象</a></li>
+<li><a href="#十四异常处理">异常处理</a></li>
+<li><a href="#十五文件操作">文件操作</a></li>
+<li><a href="#十六网络请求">网络请求</a></li>
+<li><a href="#十七图形界面">图形界面</a></li>
+<li><a href="#十八多线程">多线程</a></li>
+<li><a href="#十九语法要点">语法要点</a></li>
+<li><a href="#二十注意事项">注意事项</a></li>
+</ol>
+<hr />
+<h2 id="一快速入门">一、快速入门</h2>
+<h3 id="第一个程序">第一个程序</h3>
+<pre><code class="language-xly">打印(&quot;你好，星能元！&quot;)
+</code></pre>
+<h3 id="变量与运算">变量与运算</h3>
+<pre><code class="language-xly">名字 = &quot;星能元&quot;
+年龄 = 1
+打印(名字 + &quot; 已经 &quot; + 字符串(年龄) + &quot; 岁了&quot;)
+</code></pre>
+<h3 id="条件与循环">条件与循环</h3>
+<pre><code class="language-xly">对于 i 在 范围(5):
+    如果 i % 2 == 0:
+        打印(i, &quot;是偶数&quot;)
+    否则:
+        打印(i, &quot;是奇数&quot;)
+</code></pre>
+<hr />
+<h2 id="二关键字对照">二、关键字对照</h2>
+<table>
+<thead>
+<tr>
+<th>星能元</th>
+<th>Python</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打印</td>
+<td>print</td>
+<td>输出</td>
+</tr>
+<tr>
+<td>输入</td>
+<td>input</td>
+<td>从控制台输入一行</td>
+</tr>
+<tr>
+<td>如果 / 否则如果 / 否则</td>
+<td>if / elif / else</td>
+<td>条件分支</td>
+</tr>
+<tr>
+<td>当</td>
+<td>while</td>
+<td>当型循环</td>
+</tr>
+<tr>
+<td>对于 ... 在 ...</td>
+<td>for ... in ...</td>
+<td>遍历循环</td>
+</tr>
+<tr>
+<td>在 / 不在</td>
+<td>in / not in</td>
+<td>成员判断</td>
+</tr>
+<tr>
+<td>定义</td>
+<td>def</td>
+<td>定义函数</td>
+</tr>
+<tr>
+<td>拉姆达</td>
+<td>lambda</td>
+<td>匿名函数</td>
+</tr>
+<tr>
+<td>产出</td>
+<td>yield</td>
+<td>生成器</td>
+</tr>
+<tr>
+<td>返回</td>
+<td>return</td>
+<td>函数返回</td>
+</tr>
+<tr>
+<td>类</td>
+<td>class</td>
+<td>定义类</td>
+</tr>
+<tr>
+<td>导入 / 从 ... 导入</td>
+<td>import / from ... import</td>
+<td>导入模块</td>
+</tr>
+<tr>
+<td>作为</td>
+<td>as</td>
+<td>别名</td>
+</tr>
+<tr>
+<td>使用 ... :</td>
+<td>with ... :</td>
+<td>上下文管理器</td>
+</tr>
+<tr>
+<td>全局</td>
+<td>global</td>
+<td>声明全局变量</td>
+</tr>
+<tr>
+<td>非局部</td>
+<td>nonlocal</td>
+<td>声明外层函数变量</td>
+</tr>
+<tr>
+<td>尝试 / 除了 / 最后</td>
+<td>try / except / finally</td>
+<td>异常处理</td>
+</tr>
+<tr>
+<td>抛出</td>
+<td>raise</td>
+<td>抛出异常</td>
+</tr>
+<tr>
+<td>中断 / 继续</td>
+<td>break / continue</td>
+<td>循环控制</td>
+</tr>
+<tr>
+<td>占位</td>
+<td>pass</td>
+<td>空语句</td>
+</tr>
+<tr>
+<td>真 / 假 / 无</td>
+<td>True / False / None</td>
+<td>字面量</td>
+</tr>
+<tr>
+<td>和 / 或 / 非</td>
+<td>and / or / not</td>
+<td>逻辑运算</td>
+</tr>
+<tr>
+<td>是 / 不是</td>
+<td>is / is not</td>
+<td>身份判断</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>del</td>
+<td>删除变量或元素</td>
+</tr>
+<tr>
+<td>断言</td>
+<td>assert</td>
+<td>断言</td>
+</tr>
+<tr>
+<td>x 如果 c 否则 y</td>
+<td>x if c else y</td>
+<td>三目表达式</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>提示</strong>：英文关键字与内建函数名同样可用，兼容标准 Python 代码。</p>
+</blockquote>
+<hr />
+<h2 id="三数据类型">三、数据类型</h2>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>中文</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整数</td>
+<td>整数</td>
+<td><code>42</code>, <code>-7</code>, <code>0xFF</code></td>
+</tr>
+<tr>
+<td>浮点数</td>
+<td>浮点数</td>
+<td><code>3.14</code>, <code>1.5e10</code></td>
+</tr>
+<tr>
+<td>字符串</td>
+<td>字符串</td>
+<td><code>"你好"</code>, <code>'世界'</code>, <code>"""..."""</code></td>
+</tr>
+<tr>
+<td>布尔</td>
+<td>布尔</td>
+<td><code>真</code>, <code>假</code></td>
+</tr>
+<tr>
+<td>列表</td>
+<td>列表</td>
+<td><code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td>元组</td>
+<td>元组</td>
+<td><code>(1, 2, 3)</code></td>
+</tr>
+<tr>
+<td>字典</td>
+<td>字典</td>
+<td><code>{"名": "星能元", "版": 1}</code></td>
+</tr>
+<tr>
+<td>集合</td>
+<td>集合</td>
+<td><code>{1, 2, 3}</code></td>
+</tr>
+<tr>
+<td>字节串</td>
+<td>字节串</td>
+<td><code>b"ABC"</code>, <code>字节串("中文")</code></td>
+</tr>
+<tr>
+<td>无</td>
+<td>无</td>
+<td><code>无</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="类型转换">类型转换</h3>
+<pre><code class="language-xly">整数(&quot;123&quot;)        # 123
+浮点数(&quot;3.14&quot;)     # 3.14
+字符串(123)        # &quot;123&quot;
+布尔(0)            # 假
+列表((1,2,3))      # [1, 2, 3]
+元组([1,2,3])      # (1, 2, 3)
+字典([(&quot;a&quot;,1)])    # {&quot;a&quot;: 1}
+集合([1,2,2,3])    # {1, 2, 3}
+字节串(&quot;中文&quot;)      # 字节串
+</code></pre>
+<hr />
+<h2 id="四运算符">四、运算符</h2>
+<h3 id="算术运算符">算术运算符</h3>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td>加</td>
+<td><code>1 + 2 = 3</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>减</td>
+<td><code>5 - 3 = 2</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>乘</td>
+<td><code>2 * 3 = 6</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>除</td>
+<td><code>7 / 2 = 3.5</code></td>
+</tr>
+<tr>
+<td><code>//</code></td>
+<td>整除</td>
+<td><code>7 // 2 = 3</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>取余</td>
+<td><code>7 % 2 = 1</code></td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>幂</td>
+<td><code>2 ** 3 = 8</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="比较运算符">比较运算符</h3>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code></td>
+<td>等于</td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>不等于</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>小于</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>大于</td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>大于等于</td>
+</tr>
+</tbody>
+</table>
+<h3 id="逻辑运算符">逻辑运算符</h3>
+<table>
+<thead>
+<tr>
+<th>星能元</th>
+<th>Python</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>和</td>
+<td>and</td>
+<td>与</td>
+</tr>
+<tr>
+<td>或</td>
+<td>or</td>
+<td>或</td>
+</tr>
+<tr>
+<td>非</td>
+<td>not</td>
+<td>非</td>
+</tr>
+</tbody>
+</table>
+<h3 id="赋值运算符">赋值运算符</h3>
+<p><code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>//=</code>, <code>%=</code>, <code>**=</code>, <code>&amp;=</code>, <code>|=</code>, <code>^=</code></p>
+<h3 id="位运算符">位运算符</h3>
+<p><code>&amp;</code> (与), <code>|</code> (或), <code>^</code> (异或), <code>~</code> (取反), <code>&lt;&lt;</code> (左移), <code>&gt;&gt;</code> (右移)</p>
+<h3 id="成员与身份运算符">成员与身份运算符</h3>
+<table>
+<thead>
+<tr>
+<th>星能元</th>
+<th>Python</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在</td>
+<td>in</td>
+<td>成员存在</td>
+</tr>
+<tr>
+<td>不在</td>
+<td>not in</td>
+<td>成员不存在</td>
+</tr>
+<tr>
+<td>是</td>
+<td>is</td>
+<td>身份相同</td>
+</tr>
+<tr>
+<td>不是</td>
+<td>is not</td>
+<td>身份不同</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="五内建函数">五、内建函数</h2>
+<h3 id="基础函数">基础函数</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打印(...)</td>
+<td>输出，支持 分隔符=/结尾=</td>
+<td><code>打印("a","b",分隔符="-")</code></td>
+</tr>
+<tr>
+<td>输入("提示")</td>
+<td>输入一行，返回字符串</td>
+<td><code>名字 = 输入("姓名：")</code></td>
+</tr>
+<tr>
+<td>长度(x)</td>
+<td>长度</td>
+<td><code>长度([1,2,3]) = 3</code></td>
+</tr>
+<tr>
+<td>范围(a,b,c)</td>
+<td>整数序列</td>
+<td><code>范围(1,10,2)</code></td>
+</tr>
+<tr>
+<td>类型(x)</td>
+<td>查看类型</td>
+<td><code>类型(123)</code></td>
+</tr>
+<tr>
+<td>绝对值(x)</td>
+<td>绝对值</td>
+<td><code>绝对值(-5) = 5</code></td>
+</tr>
+<tr>
+<td>最大值(...) / 最小值(...)</td>
+<td>最值</td>
+<td><code>最大值(1,2,3)</code></td>
+</tr>
+<tr>
+<td>求和(x)</td>
+<td>求和</td>
+<td><code>求和([1,2,3]) = 6</code></td>
+</tr>
+<tr>
+<td>排序(x, 键=, 倒序=)</td>
+<td>排序</td>
+<td><code>排序([3,1,2])</code></td>
+</tr>
+<tr>
+<td>枚举(x)</td>
+<td>带序号遍历</td>
+<td><code>枚举(["a","b"])</code></td>
+</tr>
+<tr>
+<td>舍入(x, 位数)</td>
+<td>四舍六入五成双</td>
+<td><code>舍入(3.14159,2)</code></td>
+</tr>
+<tr>
+<td>幂(a, b)</td>
+<td>乘方</td>
+<td><code>幂(2,3) = 8</code></td>
+</tr>
+<tr>
+<td>字符(n) / 编码(c)</td>
+<td>字符与编号互转</td>
+<td><code>字符(65) = "A"</code></td>
+</tr>
+<tr>
+<td>判断(x, 类型)</td>
+<td>类型判断</td>
+<td><code>判断(1, 整数)</code></td>
+</tr>
+<tr>
+<td>反转(x)</td>
+<td>反转</td>
+<td><code>反转([1,2,3])</code></td>
+</tr>
+<tr>
+<td>拉链(a, b...)</td>
+<td>两两配对</td>
+<td><code>拉链([1,2],["a","b"])</code></td>
+</tr>
+<tr>
+<td>映射(函数, 序列)</td>
+<td>映射</td>
+<td><code>映射(平方, [1,2,3])</code></td>
+</tr>
+<tr>
+<td>过滤(函数, 序列)</td>
+<td>过滤</td>
+<td><code>过滤(拉姆达 x: x&gt;0, [-1,2,-3])</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="进制转换v11新增">进制转换（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>二进制(x)</td>
+<td>整数转二进制字符串</td>
+<td><code>二进制(255) = "0b11111111"</code></td>
+</tr>
+<tr>
+<td>八进制(x)</td>
+<td>整数转八进制字符串</td>
+<td><code>八进制(255) = "0o377"</code></td>
+</tr>
+<tr>
+<td>十六进制(x)</td>
+<td>整数转十六进制字符串</td>
+<td><code>十六进制(255) = "0xff"</code></td>
+</tr>
+<tr>
+<td>除商取余(a, b)</td>
+<td>返回 (a//b, a%b)</td>
+<td><code>除商取余(10,3) = (3, 1)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="迭代与调用v11新增">迭代与调用（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可调用(x)</td>
+<td>判断对象是否可调用</td>
+</tr>
+<tr>
+<td>下一个(迭代器[, 默认])</td>
+<td>取迭代器下一个值</td>
+</tr>
+<tr>
+<td>迭代器(x)</td>
+<td>获取迭代器</td>
+</tr>
+<tr>
+<td>任意(序列)</td>
+<td>序列中是否有真值</td>
+</tr>
+<tr>
+<td>全部(序列)</td>
+<td>序列中是否全为真值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="哈希与标识v11新增">哈希与标识（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ascii码(x)</td>
+<td>返回 ASCII 表示（非 ASCII 字符转义）</td>
+</tr>
+<tr>
+<td>哈希(x)</td>
+<td>返回对象的哈希值（整数）</td>
+</tr>
+<tr>
+<td>标识(x)</td>
+<td>返回对象的唯一标识</td>
+</tr>
+<tr>
+<td>变量字典(对象)</td>
+<td>返回对象实例的属性字典</td>
+</tr>
+</tbody>
+</table>
+<h3 id="类型构造v11新增">类型构造（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>复数(实部[, 虚部])</td>
+<td>返回复数表示字符串</td>
+</tr>
+<tr>
+<td>冻结集合(可迭代)</td>
+<td>创建冻结集合（不可变）</td>
+</tr>
+<tr>
+<td>字节数组(x)</td>
+<td>创建可变字节数组</td>
+</tr>
+<tr>
+<td>对象()</td>
+<td>创建一个空对象</td>
+</tr>
+<tr>
+<td>切片对象(起始, 结束, 步长)</td>
+<td>创建切片对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="格式化与表示">格式化与表示</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>格式化(模板, ...)</td>
+<td>格式化字符串</td>
+</tr>
+<tr>
+<td>表示(x)</td>
+<td>返回对象的表示字符串</td>
+</tr>
+<tr>
+<td>列出属性(x)</td>
+<td>列出对象的属性/方法名</td>
+</tr>
+<tr>
+<td>帮助(x)</td>
+<td>显示帮助信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文件与网络">文件与网络</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开(路径, 模式)</td>
+<td>打开文件（虚拟文件系统）</td>
+</tr>
+<tr>
+<td>请求(网址, 选项)</td>
+<td>网络请求，返回响应对象</td>
+</tr>
+<tr>
+<td>获取(网址)</td>
+<td>快速 GET，返回文本</td>
+</tr>
+<tr>
+<td>获取二进制(网址)</td>
+<td>快速 GET，返回字节串</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="六字符串方法">六、字符串方法</h2>
+<h3 id="基础方法">基础方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.拆分(分隔符)</td>
+<td>分割字符串</td>
+<td><code>"a,b,c".拆分(",")</code></td>
+</tr>
+<tr>
+<td>.连接(序列)</td>
+<td>连接序列</td>
+<td><code>"-".连接(["a","b"])</code></td>
+</tr>
+<tr>
+<td>.替换(旧, 新[, 次数])</td>
+<td>替换</td>
+<td><code>"aab".替换("a","x")</code></td>
+</tr>
+<tr>
+<td>.大写()</td>
+<td>转大写</td>
+<td><code>"abc".大写()</code></td>
+</tr>
+<tr>
+<td>.小写()</td>
+<td>转小写</td>
+<td><code>"ABC".小写()</code></td>
+</tr>
+<tr>
+<td>.去除空白([字符])</td>
+<td>去除两端空白</td>
+<td><code>"  hi  ".去除空白()</code></td>
+</tr>
+<tr>
+<td>.左去除([字符])</td>
+<td>去除左端空白</td>
+<td><code>"  hi".左去除()</code></td>
+</tr>
+<tr>
+<td>.右去除([字符])</td>
+<td>去除右端空白</td>
+<td><code>"hi  ".右去除()</code></td>
+</tr>
+<tr>
+<td>.开始于(前缀)</td>
+<td>是否以指定前缀开头</td>
+<td><code>"abc".开始于("a")</code></td>
+</tr>
+<tr>
+<td>.结束于(后缀)</td>
+<td>是否以指定后缀结尾</td>
+<td><code>"abc".结束于("c")</code></td>
+</tr>
+<tr>
+<td>.查找(子串[, 起始])</td>
+<td>查找子串，返回索引</td>
+<td><code>"abc".查找("b")</code></td>
+</tr>
+<tr>
+<td>.索引(子串)</td>
+<td>查找子串，不存在抛异常</td>
+<td></td>
+</tr>
+<tr>
+<td>.统计(子串)</td>
+<td>统计子串出现次数</td>
+<td><code>"aaa".统计("a")</code></td>
+</tr>
+<tr>
+<td>.格式化(...)</td>
+<td>格式化字符串</td>
+<td><code>"{} {}".格式化("a","b")</code></td>
+</tr>
+<tr>
+<td>.补零(宽度)</td>
+<td>左侧补零</td>
+<td><code>"5".补零(3) = "005"</code></td>
+</tr>
+<tr>
+<td>.居中(宽度[, 填充])</td>
+<td>居中对齐</td>
+<td><code>"ab".居中(5) = " ab "</code></td>
+</tr>
+<tr>
+<td>.拆分行()</td>
+<td>按行分割</td>
+<td><code>"a\nb".拆分行()</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="判断方法">判断方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.字母()</td>
+<td>是否全为字母</td>
+</tr>
+<tr>
+<td>.数字()</td>
+<td>是否全为数字</td>
+</tr>
+<tr>
+<td>.字母数字()</td>
+<td>是否全为字母数字</td>
+</tr>
+<tr>
+<td>.空白()</td>
+<td>是否全为空白</td>
+</tr>
+<tr>
+<td>.是小写()</td>
+<td>是否全小写</td>
+</tr>
+<tr>
+<td>.是大写()</td>
+<td>是否全大写</td>
+</tr>
+<tr>
+<td>.是标题()</td>
+<td>是否标题格式</td>
+</tr>
+<tr>
+<td>.是ascii()</td>
+<td>是否全为 ASCII</td>
+</tr>
+<tr>
+<td>.是十进制()</td>
+<td>是否全为十进制数字</td>
+</tr>
+<tr>
+<td>.是标识符()</td>
+<td>是否为合法标识符</td>
+</tr>
+<tr>
+<td>.可打印()</td>
+<td>是否可打印</td>
+</tr>
+</tbody>
+</table>
+<h3 id="查找与分割v11新增">查找与分割（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.右查找(子串)</td>
+<td>从右侧查找</td>
+</tr>
+<tr>
+<td>.右索引(子串)</td>
+<td>从右侧索引</td>
+</tr>
+<tr>
+<td>.右拆分(分隔符[, 次数])</td>
+<td>从右侧拆分</td>
+</tr>
+<tr>
+<td>.分割前中后(分隔符)</td>
+<td>分割为 (前, 分隔符, 后)</td>
+</tr>
+<tr>
+<td>.右分割前中后(分隔符)</td>
+<td>从右侧分割前中后</td>
+</tr>
+</tbody>
+</table>
+<h3 id="变换方法v11新增">变换方法（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.首字母大写()</td>
+<td>首字母大写，其余小写</td>
+</tr>
+<tr>
+<td>.折叠大小写()</td>
+<td>折叠大小写（类似小写）</td>
+</tr>
+<tr>
+<td>.标题化()</td>
+<td>每个单词首字母大写</td>
+</tr>
+<tr>
+<td>.交换大小写()</td>
+<td>大小写互换</td>
+</tr>
+<tr>
+<td>.移除前缀(前缀)</td>
+<td>移除前缀</td>
+</tr>
+<tr>
+<td>.移除后缀(后缀)</td>
+<td>移除后缀</td>
+</tr>
+<tr>
+<td>.左对齐(宽度[, 填充])</td>
+<td>左对齐</td>
+</tr>
+<tr>
+<td>.右对齐(宽度[, 填充])</td>
+<td>右对齐</td>
+</tr>
+<tr>
+<td>.展开制表符([空格数])</td>
+<td>制表符转空格</td>
+</tr>
+</tbody>
+</table>
+<h3 id="翻译与编码v11新增">翻译与编码（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.制作翻译表(源, 目标)</td>
+<td>创建翻译表</td>
+</tr>
+<tr>
+<td>.翻译(表[, 删除字符])</td>
+<td>按翻译表替换</td>
+</tr>
+<tr>
+<td>.格式化映射(字典)</td>
+<td>用字典格式化</td>
+</tr>
+<tr>
+<td>.编码([编码])</td>
+<td>字符串转字节串</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="七列表方法">七、列表方法</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.追加(元素)</td>
+<td>末尾追加</td>
+<td><code>[1,2].追加(3)</code></td>
+</tr>
+<tr>
+<td>.插入(索引, 元素)</td>
+<td>指定位置插入</td>
+<td><code>[1,3].插入(1,2)</code></td>
+</tr>
+<tr>
+<td>.移除(元素)</td>
+<td>移除第一个匹配</td>
+<td><code>[1,2,1].移除(1)</code></td>
+</tr>
+<tr>
+<td>.弹出([索引])</td>
+<td>弹出元素</td>
+<td><code>[1,2,3].弹出()</code></td>
+</tr>
+<tr>
+<td>.清空()</td>
+<td>清空列表</td>
+<td></td>
+</tr>
+<tr>
+<td>.排序([键][,倒序])</td>
+<td>排序</td>
+<td><code>[3,1,2].排序()</code></td>
+</tr>
+<tr>
+<td>.反转()</td>
+<td>反转</td>
+<td></td>
+</tr>
+<tr>
+<td>.索引(元素)</td>
+<td>查找索引</td>
+<td></td>
+</tr>
+<tr>
+<td>.统计(元素)</td>
+<td>统计次数</td>
+<td></td>
+</tr>
+<tr>
+<td>.扩展(可迭代)</td>
+<td>扩展列表</td>
+<td><code>[1,2].扩展([3,4])</code></td>
+</tr>
+<tr>
+<td>.拷贝()</td>
+<td>浅拷贝</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="八字典方法">八、字典方法</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.获取(键[, 默认])</td>
+<td>获取值，不存在返回默认</td>
+</tr>
+<tr>
+<td>.键()</td>
+<td>返回所有键的列表</td>
+</tr>
+<tr>
+<td>.值()</td>
+<td>返回所有值的列表</td>
+</tr>
+<tr>
+<td>.项目()</td>
+<td>返回所有 (键,值) 对的列表</td>
+</tr>
+<tr>
+<td>.弹出(键[, 默认])</td>
+<td>删除并返回值</td>
+</tr>
+<tr>
+<td>.弹出项()</td>
+<td>删除并返回最后一项 (v1.1)</td>
+</tr>
+<tr>
+<td>.更新(字典/序列)</td>
+<td>更新字典</td>
+</tr>
+<tr>
+<td>.清空()</td>
+<td>清空字典</td>
+</tr>
+<tr>
+<td>.拷贝()</td>
+<td>浅拷贝</td>
+</tr>
+<tr>
+<td>.设置默认(键[, 默认])</td>
+<td>获取或设置默认值</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="九集合方法">九、集合方法</h2>
+<h3 id="基础方法_1">基础方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.添加(元素)</td>
+<td>添加元素</td>
+</tr>
+<tr>
+<td>.移除(元素)</td>
+<td>移除元素，不存在抛异常</td>
+</tr>
+<tr>
+<td>.丢弃(元素)</td>
+<td>移除元素，不存在不报错</td>
+</tr>
+<tr>
+<td>.清空()</td>
+<td>清空集合</td>
+</tr>
+<tr>
+<td>.拷贝()</td>
+<td>浅拷贝</td>
+</tr>
+<tr>
+<td>.弹出任意()</td>
+<td>弹出任意一个元素 (v1.1)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="集合运算v11新增">集合运算（v1.1 新增）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.并集(集合)</td>
+<td>并集</td>
+</tr>
+<tr>
+<td>.交集(集合)</td>
+<td>交集</td>
+</tr>
+<tr>
+<td>.差集(集合)</td>
+<td>差集</td>
+</tr>
+<tr>
+<td>.对称差集(集合)</td>
+<td>对称差集</td>
+</tr>
+<tr>
+<td>.是子集(集合)</td>
+<td>是否为子集</td>
+</tr>
+<tr>
+<td>.是超集(集合)</td>
+<td>是否为超集</td>
+</tr>
+<tr>
+<td>.不相交(集合)</td>
+<td>是否不相交</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十内置模块">十、内置模块</h2>
+<h3 id="数学math">数学（math）</h3>
+<pre><code class="language-xly">导入 数学
+数学.圆周率          # 3.141592653589793
+数学.自然底数         # 2.718281828459045
+数学.平方根(16)      # 4.0
+数学.正弦(0)         # 0.0
+数学.余弦(0)         # 1.0
+数学.对数(100, 10)   # 2.0
+数学.向上取整(3.2)   # 4
+数学.向下取整(3.8)   # 3
+数学.阶乘(5)         # 120
+数学.最大公约数(12, 8) # 4
+数学.最小公倍数(4, 6)  # 12
+</code></pre>
+<h3 id="随机random">随机（random）</h3>
+<pre><code class="language-xly">导入 随机
+随机.随机数()              # 0.0 ~ 1.0
+随机.随机整数(1, 100)       # 1 ~ 100
+随机.均匀随机(1.0, 10.0)    # 1.0 ~ 10.0
+随机.随机选择([&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]) # 随机选一个
+随机.随机样本(范围(10), 3)   # 随机选3个不重复
+随机.打乱(列表)             # 原地打乱
+随机.种子(42)               # 设置随机种子
+随机.高斯随机(0, 1)         # 高斯分布随机数
+</code></pre>
+<h3 id="时间time">时间（time）</h3>
+<pre><code class="language-xly">导入 时间
+时间.睡眠(1)                # 睡眠1秒
+时间.时间()                 # 当前时间戳
+时间.计时()                 # 高精度计时（秒）
+时间.本地时间()             # 返回字典{年,月,日,时,分,秒,毫秒,星期}
+时间.格式化时间(&quot;%Y-%m-%d %H:%M:%S&quot;)  # 格式化时间
+</code></pre>
+<h3 id="文件file">文件（file）</h3>
+<pre><code class="language-xly">导入 文件
+文件.列出()                 # 列出所有文件
+文件.存在(&quot;a.txt&quot;)          # 文件是否存在
+文件.读取(&quot;a.txt&quot;)          # 读取文件内容
+文件.写入(&quot;a.txt&quot;, &quot;内容&quot;)  # 写入文件
+文件.追加(&quot;a.txt&quot;, &quot;\n追加&quot;) # 追加内容
+文件.创建(&quot;a.txt&quot;)          # 创建空文件
+文件.删除(&quot;a.txt&quot;)          # 删除文件
+</code></pre>
+<h3 id="线程thread">线程（thread）</h3>
+<pre><code class="language-xly">导入 线程
+导入 时间
+
+定义 任务(名字):
+    时间.睡眠(1)
+    打印(名字, &quot;完成&quot;)
+
+t = 线程.启动(任务, &quot;任务A&quot;)
+t.等待()                    # 等待线程结束
+t.已结束()                  # 是否已结束
+t.有错误()                  # 是否有错误
+线程.线程数()               # 当前线程数
+</code></pre>
+<h3 id="图形graphics">图形（graphics）</h3>
+<pre><code class="language-xly">导入 图形
+图形.画布(400, 300)         # 创建画布
+图形.背景色(255, 255, 255)  # 设置背景色
+图形.颜色(&quot;红&quot;)             # 设置颜色
+图形.线宽(2)                # 设置线宽
+图形.画线(0, 0, 100, 100)   # 画线
+图形.矩形(10, 10, 50, 50, 真) # 矩形（填充）
+图形.圆(200, 150, 50, 真)   # 圆形（填充）
+图形.椭圆(100, 100, 60, 40) # 椭圆
+图形.弧线(150, 150, 70, 0, 3.14, 假)  # 弧线
+图形.文本(10, 20, &quot;你好&quot;)   # 文本
+图形.文本大小(20)           # 文本大小
+图形.点(50, 50)             # 画点
+图形.多边形([(0,0),(100,0),(50,100)]) # 多边形
+</code></pre>
+<h3 id="jsonv11新增">json（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 json
+
+# 解析 JSON 字符串
+数据 = json.解析('{&quot;名字&quot;:&quot;星能元&quot;,&quot;版本&quot;:1}')
+打印(数据[&quot;名字&quot;])           # 星能元
+
+# 序列化为 JSON 字符串
+文本 = json.序列化({&quot;a&quot;:1, &quot;b&quot;:[2,3]})
+打印(文本)                   # {&quot;a&quot;:1,&quot;b&quot;:[2,3]}
+
+# 带缩进
+美化 = json.序列化(数据, 2)
+</code></pre>
+<h3 id="正则rev11新增">正则（re）（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 正则
+
+# 匹配
+结果 = 正则.匹配('\d+', 'abc123def')
+打印(结果)                   # ['123']
+
+# 全部匹配
+结果 = 正则.全部匹配('\d', 'a1b2c3')
+打印(结果)                   # [['1'],['2'],['3']]
+
+# 搜索
+位置 = 正则.搜索('\d+', 'abc123')
+打印(位置)                   # 3
+
+# 替换
+文本 = 正则.替换('\d', 'X', 'a1b2c3')
+打印(文本)                   # aXbXcX
+
+# 分割
+结果 = 正则.分割(',', 'a,b,c')
+打印(结果)                   # ['a','b','c']
+
+# 编译
+模式 = 正则.编译('\w+', 'g')
+结果 = 正则.匹配(模式, 'hello world')
+</code></pre>
+<h3 id="日期时间datetimev11新增">日期时间（datetime）（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 日期时间
+
+日期时间.现在()              # &quot;2026-09-26 14:30:00&quot;
+日期时间.今天()              # &quot;2026-09-26&quot;
+日期时间.时间戳()            # Unix 时间戳（秒）
+日期时间.年()                # 2026
+日期时间.月()                # 9
+日期时间.日()                # 26
+日期时间.时()                # 14
+日期时间.分()                # 30
+日期时间.秒()                # 0
+日期时间.星期()              # 6 (0=周日)
+
+# 格式化
+日期时间.格式化(&quot;%Y年%m月%d日&quot;)  # &quot;2026年09月26日&quot;
+
+# 解析日期字符串为时间戳
+戳 = 日期时间.解析(&quot;2026-09-26 14:30:00&quot;)
+</code></pre>
+<h3 id="系统sysv11新增">系统（sys）（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 系统
+
+系统.版本()                 # &quot;星能元 1.1.0&quot;
+系统.平台()                 # 运行平台
+系统.最大整数()             # 最大安全整数
+系统.最小整数()             # 最小安全整数
+系统.参数()                 # 命令行参数（空列表）
+系统.退出()                 # 退出程序
+</code></pre>
+<h3 id="base64v11新增">base64（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 base64
+
+编码结果 = base64.编码(&quot;hello&quot;)
+打印(编码结果)               # &quot;aGVsbG8=&quot;
+
+解码结果 = base64.解码(&quot;aGVsbG8=&quot;)
+打印(解码结果)               # &quot;hello&quot;
+
+# 字节串编码
+b = 字节串(&quot;hello&quot;)
+编码字节 = base64.编码字节(b)
+</code></pre>
+<h3 id="哈希hashlibv11新增">哈希（hashlib）（v1.1 新增）</h3>
+<pre><code class="language-xly">导入 哈希
+
+哈希.md5(&quot;hello&quot;)           # MD5 哈希
+哈希.sha1(&quot;hello&quot;)          # SHA1 哈希
+哈希.sha256(&quot;hello&quot;)        # SHA256 哈希
+哈希.计算(&quot;md5&quot;, &quot;hello&quot;)   # 指定算法
+</code></pre>
+<hr />
+<h2 id="十一流程控制">十一、流程控制</h2>
+<h3 id="条件语句">条件语句</h3>
+<pre><code class="language-xly">如果 分数 &gt;= 90:
+    打印(&quot;优秀&quot;)
+否则如果 分数 &gt;= 60:
+    打印(&quot;及格&quot;)
+否则:
+    打印(&quot;不及格&quot;)
+</code></pre>
+<h3 id="while循环">while 循环</h3>
+<pre><code class="language-xly">i = 0
+当 i &lt; 5:
+    打印(i)
+    i += 1
+</code></pre>
+<h3 id="for循环">for 循环</h3>
+<pre><code class="language-xly">对于 i 在 范围(5):
+    打印(i)
+
+对于 键, 值 在 字典.项目():
+    打印(键, 值)
+
+对于 索引, 元素 在 枚举(列表):
+    打印(索引, 元素)
+</code></pre>
+<h3 id="三目表达式">三目表达式</h3>
+<pre><code class="language-xly">结果 = &quot;正数&quot; 如果 x &gt; 0 否则 &quot;非正数&quot;
+</code></pre>
+<h3 id="循环控制">循环控制</h3>
+<pre><code class="language-xly">对于 i 在 范围(10):
+    如果 i == 5:
+        中断          # 跳出循环
+    如果 i % 2 == 0:
+        继续          # 跳过本次
+    打印(i)
+</code></pre>
+<hr />
+<h2 id="十二函数">十二、函数</h2>
+<h3 id="定义与调用">定义与调用</h3>
+<pre><code class="language-xly">定义 问候(名字):
+    返回 &quot;你好，&quot; + 名字
+
+打印(问候(&quot;星能元&quot;))
+</code></pre>
+<h3 id="默认参数">默认参数</h3>
+<pre><code class="language-xly">定义 问候(名字, 问候语=&quot;你好&quot;):
+    返回 问候语 + &quot;，&quot; + 名字
+
+打印(问候(&quot;星能元&quot;))              # 你好，星能元
+打印(问候(&quot;星能元&quot;, &quot;早上好&quot;))     # 早上好，星能元
+</code></pre>
+<h3 id="可变参数">可变参数</h3>
+<pre><code class="language-xly">定义 求和(*数字们):
+    总 = 0
+    对于 n 在 数字们:
+        总 += n
+    返回 总
+
+打印(求和(1, 2, 3, 4))           # 10
+</code></pre>
+<h3 id="关键字参数">关键字参数</h3>
+<pre><code class="language-xly">定义 介绍(名字, **信息):
+    打印(&quot;名字:&quot;, 名字)
+    对于 键, 值 在 信息.项目():
+        打印(键, &quot;:&quot;, 值)
+
+介绍(&quot;星能元&quot;, 年龄=1, 语言=&quot;中文&quot;)
+</code></pre>
+<h3 id="拉姆达匿名函数">拉姆达（匿名函数）</h3>
+<pre><code class="language-xly">平方 = 拉姆达 x: x * x
+打印(平方(5))                    # 25
+
+绝对值 = 拉姆达 x: x 如果 x &gt;= 0 否则 -x
+</code></pre>
+<h3 id="生成器">生成器</h3>
+<pre><code class="language-xly">定义 斐波那契():
+    a, b = 0, 1
+    当 真:
+        产出 a
+        a, b = b, a + b
+
+对于 i 在 斐波那契():
+    如果 i &gt; 20:
+        中断
+    打印(i)
+</code></pre>
+<h3 id="全局与非局部变量">全局与非局部变量</h3>
+<pre><code class="language-xly">计数 = 0
+
+定义 增加():
+    全局 计数
+    计数 += 1
+
+# 非局部（用于嵌套函数）
+定义 外层():
+    x = 0
+    定义 内层():
+        非局部 x
+        x += 1
+    内层()
+    打印(x)                       # 1
+</code></pre>
+<h3 id="装饰器">装饰器</h3>
+<pre><code class="language-xly">定义 日志(函数):
+    定义 包装(*参数, **关键字):
+        打印(&quot;调用:&quot;, 函数.__name__ 如果 函数.__name__ 否则 &quot;匿名&quot;)
+        返回 函数(*参数, **关键字)
+    返回 包装
+
+@日志
+定义 问候(名字):
+    返回 &quot;你好，&quot; + 名字
+</code></pre>
+<hr />
+<h2 id="十三类与面向对象">十三、类与面向对象</h2>
+<h3 id="定义类">定义类</h3>
+<pre><code class="language-xly">类 动物:
+    定义 __init__(自身, 名字):
+        自身.名字 = 名字
+
+    定义 说话(自身):
+        打印(自身.名字, &quot;发出声音&quot;)
+
+类 狗(动物):
+    定义 说话(自身):
+        打印(自身.名字, &quot;汪汪叫&quot;)
+
+小狗 = 狗(&quot;旺财&quot;)
+小狗.说话()                       # 旺财 汪汪叫
+</code></pre>
+<h3 id="特殊方法">特殊方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__</code></td>
+<td>构造方法</td>
+</tr>
+<tr>
+<td><code>__str__</code></td>
+<td>字符串表示</td>
+</tr>
+<tr>
+<td><code>__repr__</code></td>
+<td>调试表示</td>
+</tr>
+<tr>
+<td><code>__len__</code></td>
+<td>长度</td>
+</tr>
+<tr>
+<td><code>__getitem__</code></td>
+<td>索引访问</td>
+</tr>
+<tr>
+<td><code>__setitem__</code></td>
+<td>索引赋值</td>
+</tr>
+<tr>
+<td><code>__iter__</code></td>
+<td>迭代器</td>
+</tr>
+<tr>
+<td><code>__next__</code></td>
+<td>下一个值</td>
+</tr>
+<tr>
+<td><code>__enter__</code> / <code>__exit__</code></td>
+<td>上下文管理器</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十四异常处理">十四、异常处理</h2>
+<pre><code class="language-xly">尝试:
+    x = 整数(输入(&quot;输入数字：&quot;))
+    打印(10 / x)
+除了 值错误:
+    打印(&quot;请输入有效数字&quot;)
+除了 除零错误:
+    打印(&quot;不能除以零&quot;)
+除了 异常 as e:
+    打印(&quot;其他错误:&quot;, e)
+最后:
+    打印(&quot;程序结束&quot;)
+</code></pre>
+<h3 id="抛出异常">抛出异常</h3>
+<pre><code class="language-xly">定义 除法(a, b):
+    如果 b == 0:
+        抛出 值错误(&quot;除数不能为零&quot;)
+    返回 a / b
+</code></pre>
+<h3 id="内置异常类型">内置异常类型</h3>
+<p><code>异常</code>, <code>值错误</code>, <code>类型错误</code>, <code>名称错误</code>, <code>索引错误</code>, <code>键错误</code>, <code>除零错误</code>, <code>属性错误</code>, <code>导入错误</code>, <code>断言错误</code>, <code>停止迭代</code></p>
+<hr />
+<h2 id="十五文件操作">十五、文件操作</h2>
+<h3 id="虚拟文件系统">虚拟文件系统</h3>
+<p>星能元使用应用内虚拟沙箱文件系统，数据持久化保存。</p>
+<pre><code class="language-xly"># 写入
+使用 打开(&quot;日记.txt&quot;, &quot;w&quot;) as f:
+    f.写(&quot;今天学会了星能元！&quot;)
+
+# 读取
+内容 = 打开(&quot;日记.txt&quot;).读()
+打印(内容)
+
+# 追加
+文件.追加(&quot;日记.txt&quot;, &quot;\n明天继续学习&quot;)
+
+# 按行读取
+行们 = 打开(&quot;日记.txt&quot;).读行们()
+对于 行 在 行们:
+    打印(行)
+
+# 二进制
+b = 字节串([72, 105])
+打开(&quot;data.bin&quot;, &quot;wb&quot;).写(b)
+</code></pre>
+<h3 id="文件方法">文件方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.读([数量])</td>
+<td>读取内容</td>
+</tr>
+<tr>
+<td>.读行()</td>
+<td>读取一行</td>
+</tr>
+<tr>
+<td>.读行们()</td>
+<td>读取所有行</td>
+</tr>
+<tr>
+<td>.写(内容)</td>
+<td>写入内容</td>
+</tr>
+<tr>
+<td>.写行(内容)</td>
+<td>写入一行</td>
+</tr>
+<tr>
+<td>.关闭()</td>
+<td>关闭文件</td>
+</tr>
+<tr>
+<td>.位置()</td>
+<td>当前位置</td>
+</tr>
+<tr>
+<td>.跳到(位置)</td>
+<td>移动到指定位置</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十六网络请求">十六、网络请求</h2>
+<h3 id="GET请求">GET 请求</h3>
+<pre><code class="language-xly"># 简单 GET
+文本 = 获取(&quot;https://api.example.com/data&quot;)
+打印(文本)
+
+# 完整请求
+响应 = 请求(&quot;https://api.example.com/data&quot;)
+打印(响应.状态码)
+打印(响应.文本())
+打印(响应.头(&quot;content-type&quot;))
+</code></pre>
+<h3 id="POST请求">POST 请求</h3>
+<pre><code class="language-xly">响应 = 请求(&quot;https://api.example.com/post&quot;, {
+    &quot;方法&quot;: &quot;POST&quot;,
+    &quot;数据&quot;: {&quot;名字&quot;: &quot;星能元&quot;},
+    &quot;头&quot;: {&quot;Content-Type&quot;: &quot;application/json&quot;},
+    &quot;超时&quot;: 30
+})
+打印(响应.文本())
+</code></pre>
+<h3 id="响应方法">响应方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.文本()</td>
+<td>获取响应文本</td>
+</tr>
+<tr>
+<td>.二进制()</td>
+<td>获取响应字节串</td>
+</tr>
+<tr>
+<td>.头(键)</td>
+<td>获取响应头</td>
+</tr>
+<tr>
+<td>.头们()</td>
+<td>获取所有响应头</td>
+</tr>
+<tr>
+<td>.状态码</td>
+<td>状态码属性</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="十七图形界面">十七、图形界面</h2>
+<p>调用 <code>图形.画布(宽, 高)</code> 后会切换到画布屏，画布屏带返回与重新运行按钮。</p>
+<h3 id="颜色">颜色</h3>
+<pre><code class="language-xly">图形.颜色(&quot;红&quot;)       # 命名颜色
+图形.颜色(255, 0, 0)  # RGB
+图形.颜色(&quot;#FF0000&quot;)  # 十六进制
+</code></pre>
+<p>支持的命名颜色：红、橙、黄、绿、青、蓝、紫、粉、黑、白、灰</p>
+<h3 id="坐标变换">坐标变换</h3>
+<pre><code class="language-xly">图形.保存()           # 保存当前状态
+图形.平移(100, 100)   # 平移
+图形.旋转(1.57)       # 旋转（弧度）
+图形.缩放(2, 2)       # 缩放
+# ... 绘制 ...
+图形.恢复()           # 恢复状态
+</code></pre>
+<hr />
+<h2 id="十八多线程">十八、多线程</h2>
+<p>星能元的线程为协作式并发，适合睡眠/网络/输入类任务。</p>
+<pre><code class="language-xly">导入 线程
+导入 时间
+
+定义 倒计时(名字, 秒数):
+    对于 i 在 范围(秒数, 0, -1):
+        打印(名字, &quot;还剩&quot;, i, &quot;秒&quot;)
+        时间.睡眠(1)
+
+t1 = 线程.启动(倒计时, &quot;闹钟A&quot;, 3)
+t2 = 线程.启动(倒计时, &quot;闹钟B&quot;, 2)
+t1.等待()
+t2.等待()
+打印(&quot;全部完成&quot;)
+</code></pre>
+<h3 id="线程锁">线程锁</h3>
+<pre><code class="language-xly">锁 = 线程.锁()
+# 在线程中使用
+# 锁会自动管理（协作式并发）
+</code></pre>
+<hr />
+<h2 id="十九语法要点">十九、语法要点</h2>
+<h3 id="缩进">缩进</h3>
+<p>缩进用 4 个空格表示代码块，冒号 <code>:</code> 结尾后换行缩进。</p>
+<pre><code class="language-xly">如果 条件:
+    打印(&quot;缩进4个空格&quot;)
+</code></pre>
+<h3 id="注释">注释</h3>
+<pre><code class="language-xly"># 这是单行注释
+
+'''
+这是
+多行注释
+'''
+</code></pre>
+<h3 id="字符串">字符串</h3>
+<pre><code class="language-xly">单引号 = '文本'
+双引号 = &quot;文本&quot;
+三引号 = &quot;&quot;&quot;多行
+文本&quot;&quot;&quot;
+
+# f-string 插值（v1.0 支持）
+名字 = &quot;星能元&quot;
+打印(f&quot;你好{名字}&quot;)
+
+# 字节串
+b = b&quot;ABC&quot;
+b2 = 字节串(&quot;中文&quot;)
+</code></pre>
+<h3 id="列表字典集合推导式">列表/字典/集合推导式</h3>
+<pre><code class="language-xly"># 列表推导式
+平方们 = [x*x 对于 x 在 范围(10)]
+
+# 带条件
+偶数们 = [x 对于 x 在 范围(10) 如果 x % 2 == 0]
+
+# 字典推导式
+平方字典 = {x: x*x 对于 x 在 范围(5)}
+
+# 集合推导式
+平方集合 = {x*x 对于 x 在 范围(5)}
+</code></pre>
+<h3 id="切片">切片</h3>
+<pre><code class="language-xly">列表 = [0, 1, 2, 3, 4, 5]
+列表[1:3]      # [1, 2]
+列表[:3]       # [0, 1, 2]
+列表[3:]       # [3, 4, 5]
+列表[::2]      # [0, 2, 4]
+列表[::-1]     # [5, 4, 3, 2, 1, 0]
+</code></pre>
+<h3 id="中文变量名">中文变量名</h3>
+<pre><code class="language-xly">姓名 = &quot;星能元&quot;
+年龄 = 1
+打印(f&quot;{姓名} {年龄}岁&quot;)
+</code></pre>
+<h3 id="使用语句上下文管理器">使用语句（上下文管理器）</h3>
+<pre><code class="language-xly">使用 打开(&quot;文件.txt&quot;, &quot;r&quot;) as f:
+    内容 = f.读()
+# 自动关闭文件
+</code></pre>
+<h3 id="类型注解运行时忽略">类型注解（运行时忽略）</h3>
+<pre><code class="language-xly">x: 整数 = 5
+
+定义 加法(a: 整数, b: 整数) -&gt; 整数:
+    返回 a + b
+</code></pre>
+<h3 id="断言">断言</h3>
+<pre><code class="language-xly">断言 x &gt; 0, &quot;x 必须为正数&quot;
+</code></pre>
+<h3 id="删除">删除</h3>
+<pre><code class="language-xly">删除 变量名
+删除 列表[0]
+删除 字典[&quot;键&quot;]
+</code></pre>
+<hr />
+<h2 id="二十注意事项">二十、注意事项</h2>
+<ol>
+<li><strong>生成器与尝试</strong>：生成器（产出）内部暂不支持包含「产出」的「尝试」块</li>
+<li><strong>字节串与字符串</strong>：不自动互转，需 <code>字节串(文本)</code> / <code>字节串.解码()</code></li>
+<li><strong>线程模型</strong>：真多线程受限（JS 单线程模型），线程为协作式并发，适合睡眠/网络/输入类任务</li>
+<li><strong>文件系统</strong>：为应用内虚拟沙箱，非安卓真实磁盘</li>
+<li><strong>网络请求</strong>：受 WebView 网络策略限制，可能需要目标站点支持 CORS</li>
+<li><strong>英文兼容</strong>：英文关键字与内建函数名同样可用，兼容标准 Python 代码</li>
+</ol>
+<hr />
+<h2 id="附录英文别名速查">附录：英文别名速查</h2>
+<p>所有中文函数/方法/模块名都有对应的英文别名，可直接使用：</p>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>英文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打印</td>
+<td>print</td>
+</tr>
+<tr>
+<td>输入</td>
+<td>input</td>
+</tr>
+<tr>
+<td>范围</td>
+<td>range</td>
+</tr>
+<tr>
+<td>长度</td>
+<td>len</td>
+</tr>
+<tr>
+<td>整数/浮点数/字符串</td>
+<td>int/float/str</td>
+</tr>
+<tr>
+<td>列表/元组/字典/集合</td>
+<td>list/tuple/dict/set</td>
+</tr>
+<tr>
+<td>如果/当/对于</td>
+<td>if/while/for</td>
+</tr>
+<tr>
+<td>定义/返回/类</td>
+<td>def/return/class</td>
+</tr>
+<tr>
+<td>导入</td>
+<td>import</td>
+</tr>
+<tr>
+<td>数学</td>
+<td>math</td>
+</tr>
+<tr>
+<td>随机</td>
+<td>random</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>time</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>file</td>
+</tr>
+<tr>
+<td>线程</td>
+<td>thread</td>
+</tr>
+<tr>
+<td>图形</td>
+<td>graphics</td>
+</tr>
+<tr>
+<td>json</td>
+<td>json</td>
+</tr>
+<tr>
+<td>正则</td>
+<td>re</td>
+</tr>
+<tr>
+<td>日期时间</td>
+<td>datetime</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>sys</td>
+</tr>
+<tr>
+<td>base64</td>
+<td>base64</td>
+</tr>
+<tr>
+<td>哈希</td>
+<td>hashlib</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>星能元语言手册 v1.1.0 · 双重星科技出品</em></p>
+  </article>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-brand">
+        <a class="back-btn" href="app-xingnengyuan.html" style="border:none;padding:0;background:none">
+          <svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true" style="stroke:none"><path d="M24 2 29.5 18.5 46 24 29.5 29.5 24 46 18.5 29.5 2 24 18.5 18.5Z" fill="url(#lg2)"></path><defs><linearGradient id="lg2" x1="2" y1="2" x2="46" y2="46"><stop stop-color="#4E8CFF"></stop><stop offset="1" stop-color="#8B5CF6"></stop></linearGradient></defs></svg>
+          <span style="font-weight:900;font-size:16px">双重星科技<small style="display:block;font-size:10px;font-weight:500;color:var(--dim);letter-spacing:.14em">DUALSTAR TECHNOLOGY</small></span>
+        </a>
+        <p>双重星出场，焕新虚拟疆。专注于虚拟开发的创新型科技创作项目。</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h5>网站导航</h5>
+          <a href="index.html">首页</a>
+          <a href="park.html">双星应用园</a>
+          <a href="app-xingnengyuan.html">星能元</a>
+          <a href="index.html#about">关于我们</a>
+        </div>
+        <div>
+          <h5>联系方式</h5>
+          <a href="mailto:scxkj@foxmail.com">scxkj@foxmail.com</a>
+          <a href="https://work.weixin.qq.com/ca/cawcde31d47703421b" target="_blank" rel="noopener">微信客服</a>
+          <span style="display:block;font-size:13px;color:var(--dim);padding:4px 0">官方迷你号 1882154384</span>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025-2026 双重星科技 Dualstar Technology · 项目编号 SX0180302301000</span>
+      <span>虚拟开发 · 双星联动 · 协同创新</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 为表格包裹可横向滚动容器，增强移动端体验
+document.querySelectorAll('.manual-body table').forEach(function(t){
+  if(!t.parentElement.classList.contains('table-wrap')){
+    var w=document.createElement('div');w.className='table-wrap';
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  }
+});
+</script>
+</body>
+</html>
